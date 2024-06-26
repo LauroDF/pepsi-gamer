@@ -1,6 +1,7 @@
 import pygame
 import random
 import os
+import time
 
 
 tamanho = (800,600)
@@ -28,18 +29,24 @@ from tkinter import simpledialog
 pygame.init()
 
 relogio = pygame.time.Clock()
-icone  = pygame.image.load("Recursos/icone.png")
+icone  = pygame.image.load("Recursos/icon.png")
 pepsico = pygame.image.load("Recursos/pepsico.png")
 fundo = pygame.image.load("Recursos/fundo.png")
 fundoStart = pygame.image.load("Recursos/fundoStart.png")
-fundoDead = pygame.image.load("Recursos/fundoDead.png")
+fundoDead = pygame.image.load("Recursos/fundoDead.jpg")
 
 cocamerda = pygame.image.load("Recursos/cocamerda.png")
+cocabosta = pygame.image.load("Recursos/cocabosta.png")
+aviao = pygame.image.load("Recursos/aviao.png")
+solgrande = pygame.image.load("Recursos/solgrande.png")
+solpequeno = pygame.image.load("Recursos/solpequeno.png")
 tamanho = (800,600)
 tela = pygame.display.set_mode( tamanho ) 
 pygame.display.set_caption("PepsiMan")
 pygame.display.set_icon(icone)
 cocamerdaSound = pygame.mixer.Sound("Recursos/cocamerda.wav")
+cocabostaSound = pygame.mixer.Sound("Recursos/cocamerda.wav")
+
 explosaoSound = pygame.mixer.Sound("Recursos/explosao.wav")
 fonte = pygame.font.SysFont("comicsans",28)
 fonteStart = pygame.font.SysFont("comicsans",55)
@@ -47,25 +54,45 @@ fonteMorte = pygame.font.SysFont("arial",120)
 pygame.mixer.music.load("Recursos/ironsound.mp3")
 
 branco = (255,255,255)
+azul = (0,0,160)
+vermelho = (160,0,0)
 preto = (0, 0 ,0 )
-
 
 def jogar(nome):
     pygame.mixer.Sound.play(cocamerdaSound)
     pygame.mixer.music.play(-1)
     posicaoXPersona = 400
-    posicaoYPersona = 300
+    posicaoYPersona = 370
     movimentoXPersona  = 0
     movimentoYPersona  = 0
     posicaoXcocamerda = 400
     posicaoYcocamerda = -240
     velocidadecocamerda = 1
+    posicaoXcocabosta = 500
+    posicaoYcocabosta = -240
+    velocidadecocabosta = 3
+    posicaoXaviao = -4000
+    posicaoYaviao = 80
+    velocidadeaviao = 5
+    posicaoXsolpequeno = 660
+    posicaoYsolpequeno = 20
+    posicaoXsolgrande = 660
+    posicaoYsolgrande = 20
+    
     pontos = 0
-    larguraPersona = 90
-    alturaPersona = 117
+    larguraPersona = 113
+    alturaPersona = 161
     larguacocamerda  = 90
     alturacocamerda  = 117
-    dificuldade  = 85
+    larguacocabosta  = 112
+    alturacocabosta  = 73
+    larguasolpequeno  = 140
+    alturasolpequeno  = 104
+    larguasolgrande  = 160
+    alturasolgrande  = 119
+    dificuldade  = 10
+
+
 
     while True:
         for evento in pygame.event.get():
@@ -79,14 +106,6 @@ def jogar(nome):
                 movimentoXPersona = 0
             elif evento.type == pygame.KEYUP and evento.key == pygame.K_LEFT:
                 movimentoXPersona = 0
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_UP:
-                movimentoYPersona = -10
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_DOWN:
-                movimentoYPersona = 10
-            elif evento.type == pygame.KEYUP and evento.key == pygame.K_UP:
-                movimentoYPersona = 0
-            elif evento.type == pygame.KEYUP and evento.key == pygame.K_DOWN:
-                movimentoYPersona = 0
                 
         posicaoXPersona = posicaoXPersona + movimentoXPersona            
         posicaoYPersona = posicaoYPersona + movimentoYPersona            
@@ -114,24 +133,45 @@ def jogar(nome):
             velocidadecocamerda = velocidadecocamerda + 1
             posicaoXcocamerda = random.randint(0,800)
             pygame.mixer.Sound.play(cocamerdaSound)
+
+        posicaoXaviao = posicaoXaviao + velocidadeaviao
+        if posicaoXaviao > 800:
+            posicaoXaviao = -4000
+
+
+        posicaoYcocabosta = posicaoYcocabosta + velocidadecocabosta
+        if posicaoYcocabosta > 600:
+            posicaoYcocabosta = -240
+            pontos = pontos + 1
+            velocidadecocabosta = velocidadecocabosta + 1
+            posicaoXcocabosta = random.randint(0,800)
+            pygame.mixer.Sound.play(cocamerdaSound)                    
             
-            
-        tela.blit( cocamerda, (posicaoXcocamerda, posicaoYcocamerda) )
-        
+        tela.blit( solpequeno, (posicaoXsolpequeno, posicaoYsolpequeno))                       
+        tela.blit( aviao, (posicaoXaviao, posicaoYaviao))                   
+        tela.blit( cocamerda, (posicaoXcocamerda, posicaoYcocamerda))
+        tela.blit( cocabosta, (posicaoXcocabosta, posicaoYcocabosta)) 
+                
         texto = fonte.render(nome+"- Pontos: "+str(pontos), True, branco)
         tela.blit(texto, (10,10))
         
-        pixelscocamerdaX = list(range(posicaoXPersona, posicaoXPersona+larguraPersona))
-        pixelscocamerdaY = list(range(posicaoYPersona, posicaoYPersona+alturaPersona))
+        pixelspepsicoX = list(range(posicaoXPersona, posicaoXPersona+larguraPersona))
+        pixelspepsicoY = list(range(posicaoYPersona, posicaoYPersona+alturaPersona))
         pixelscocamerdaX = list(range(posicaoXcocamerda, posicaoXcocamerda + larguacocamerda))
         pixelscocamerdalY = list(range(posicaoYcocamerda, posicaoYcocamerda + alturacocamerda))
+        pixelscocabostaX = list(range(posicaoXcocabosta, posicaoXcocabosta + larguacocabosta))
+        pixelscocabostalY = list(range(posicaoYcocabosta, posicaoYcocabosta + alturacocabosta))
+        pixelssolpequenolY = list(range(posicaoYsolpequeno, posicaoYsolpequeno + alturasolpequeno))
         
-        #print( len( list( set(pixelsMisselX).intersection(set(pixelsPersonaX))   ) )   )
-        if  len( list( set(pixelscocamerdalY).intersection(set(pixelscocamerdaY))) ) > dificuldade:
-            if len( list( set(pixelscocamerdaX).intersection(set(pixelscocamerdaX))   ) )  > dificuldade:
+
+        #print( len( list( set(pixelscocamerdaX).intersection(set(pixelspepsicoX))   ) )   )
+        if  len( list( set(pixelscocamerdalY).intersection(set(pixelspepsicoY))) ) > dificuldade:
+            if len( list( set(pixelscocamerdaX).intersection(set(pixelspepsicoX))   ) )  > dificuldade:
                 dead(nome, pontos)
-        
-    
+
+        if  len( list( set(pixelscocabostalY).intersection(set(pixelspepsicoY))) ) > dificuldade:
+            if len( list( set(pixelscocabostaX).intersection(set(pixelspepsicoX))   ) )  > dificuldade:
+                dead(nome, pontos)
         
         pygame.display.update()
         relogio.tick(60)
@@ -168,9 +208,9 @@ def dead(nome, pontos):
         tela.fill(branco)
         tela.blit(fundoDead, (0,0))
         buttonStart = pygame.draw.rect(tela, preto, (35,482,750,100),0)
-        textoStart = fonteStart.render("RESTART", True, branco)
+        textoStart = fonteStart.render("", True, branco)
         tela.blit(textoStart, (400,482))
-        textoEnter = fonte.render("Press enter to continue...", True, branco)
+        textoEnter = fonte.render("GOSTOU DO RATINHO?? 'ENTER' PARA MAIS...", True, vermelho)
         tela.blit(textoEnter, (60,482))
         pygame.display.update()
         relogio.tick(60)
