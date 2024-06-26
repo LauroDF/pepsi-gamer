@@ -31,9 +31,9 @@ pygame.init()
 relogio = pygame.time.Clock()
 icone  = pygame.image.load("Recursos/icon.png")
 pepsico = pygame.image.load("Recursos/pepsico.png")
-fundo = pygame.image.load("Recursos/fundo.png")
+fundo = pygame.image.load("Recursos/fundo.jpg")
 fundoStart = pygame.image.load("Recursos/fundoStart.png")
-fundoDead = pygame.image.load("Recursos/fundoDead.jpg")
+fundoDead = pygame.image.load("Recursos/fundoDead.png")
 
 cocamerda = pygame.image.load("Recursos/cocamerda.png")
 cocabosta = pygame.image.load("Recursos/cocabosta.png")
@@ -47,7 +47,7 @@ pygame.display.set_icon(icone)
 cocamerdaSound = pygame.mixer.Sound("Recursos/cocamerda.wav")
 cocabostaSound = pygame.mixer.Sound("Recursos/cocamerda.wav")
 
-explosaoSound = pygame.mixer.Sound("Recursos/explosao.wav")
+explosaoSound = pygame.mixer.Sound("Recursos/crazydead.mp3")
 fonte = pygame.font.SysFont("comicsans",28)
 fonteStart = pygame.font.SysFont("comicsans",55)
 fonteMorte = pygame.font.SysFont("arial",120)
@@ -84,8 +84,8 @@ def jogar(nome):
     alturaPersona = 161
     larguacocamerda  = 90
     alturacocamerda  = 117
-    larguacocabosta  = 112
-    alturacocabosta  = 73
+    larguacocabosta  = 92
+    alturacocabosta  = 169
     larguasolpequeno  = 140
     alturasolpequeno  = 104
     larguasolgrande  = 160
@@ -210,7 +210,7 @@ def dead(nome, pontos):
         buttonStart = pygame.draw.rect(tela, preto, (35,482,750,100),0)
         textoStart = fonteStart.render("", True, branco)
         tela.blit(textoStart, (400,482))
-        textoEnter = fonte.render("GOSTOU DO RATINHO?? 'ENTER' PARA MAIS...", True, vermelho)
+        textoEnter = fonte.render("FALTA PEPSI NO SEU SISTEMA!!! 'PRESS ENTER'", True, branco)
         tela.blit(textoEnter, (60,482))
         pygame.display.update()
         relogio.tick(60)
