@@ -74,10 +74,10 @@ def jogar(nome):
     posicaoXaviao = -4000
     posicaoYaviao = 80
     velocidadeaviao = 5
-    posicaoXsolpequeno = 660
-    posicaoYsolpequeno = 20
-    posicaoXsolgrande = 660
-    posicaoYsolgrande = 20
+    posicaoXsolpequeno = 690
+    posicaoYsolpequeno = 15
+    posicaoXsolgrande = 690
+    posicaoYsolgrande = 15
     
     pontos = 0
     larguraPersona = 113
@@ -87,9 +87,9 @@ def jogar(nome):
     larguacocabosta  = 92
     alturacocabosta  = 169
     larguasolpequeno  = 140
-    alturasolpequeno  = 104
-    larguasolgrande  = 160
-    alturasolgrande  = 119
+    alturasolpequeno  = 95
+    larguasolgrande  = 92
+    alturasolgrande  = 114
     dificuldade  = 10
 
 
