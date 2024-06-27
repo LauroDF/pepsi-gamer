@@ -2,6 +2,7 @@ import pygame
 import random
 import os
 import time
+from funcoes import limpartela
 
 
 tamanho = (800,600)
@@ -59,6 +60,11 @@ vermelho = (160,0,0)
 preto = (0, 0 ,0 )
 
 def jogar(nome):
+    posicao_coracao = (50, 50)
+    raio_coracao = 10
+    raio_min  = 10
+    raio_max = 58
+    incremento_coracao = 1
     pygame.mixer.Sound.play(cocamerdaSound)
     pygame.mixer.music.play(-1)
     posicaoXPersona = 400
@@ -123,7 +129,12 @@ def jogar(nome):
             
         tela.fill(branco)
         tela.blit(fundo, (0,0) )
-        #pygame.draw.circle(tela, preto, (posicaoXPersona,posicaoYPersona), 40, 0 )
+        pygame.draw.circle(tela, branco, (737,57), raio_coracao)
+
+        raio_coracao = raio_coracao + incremento_coracao
+        if raio_coracao >= raio_max or raio_coracao <= raio_min:
+            incremento_coracao = -incremento_coracao
+
         tela.blit( pepsico, (posicaoXPersona, posicaoYPersona) )
         
         posicaoYcocamerda = posicaoYcocamerda + velocidadecocamerda
